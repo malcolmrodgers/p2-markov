@@ -27,27 +27,48 @@ public class HashMarkov implements MarkovInterface {
 
         
     @Override
-    public List<String> getFollows(WordGram wgram) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getFollows'");
+    public List<String> getFollows(WordGram wGram) {
+        List<String> follows = new ArrayList<>();
+        follows = myMap.get(wGram);
+        if (follows != null) {
+            return follows;
+        }
+        else {
+            List<String> newFollows = new ArrayList<>();
+            follows = newFollows;
+        }
+        return follows; 
+    }
+
+    private String getNext(WordGram wGram) {
+        List<String> follows = getFollows(wGram);
+        if (follows.size() == 0) {
+            int randomIndex = myRandom.nextInt(myWords.length);
+            follows.add(myWords[randomIndex]);
+        }
     }
 
     @Override
     public String getRandomText(int length) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getRandomText'");
+        ArrayList<String> randomWords = new ArrayList<>(length);
+        int index = myRandom.nextInt(myWords.length - myOrder + 1);
+        WordGram current = new WordGram(myWords, index, myOrder);
+        randomWords.add(current.toString());
+
+            for (int i=0; i<length - myOrder; i += 1);
+                String nextWord = getNext(current);
+                randomWords.add(nextWord);
+
     }
 
     @Override
     public int getOrder() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getOrder'");
+        return myOrder;
     }
 
     @Override
     public void setSeed(long seed) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setSeed'");
+        myRandom.setSeed(seed);
     }
     
 }
