@@ -42,10 +42,14 @@ public class HashMarkov implements MarkovInterface {
 
     private String getNext(WordGram wGram) {
         List<String> follows = getFollows(wGram);
+
         if (follows.size() == 0) {
             int randomIndex = myRandom.nextInt(myWords.length);
             follows.add(myWords[randomIndex]);
         }
+        int randomIndex = myRandom.nextInt(follows.size());
+
+        return follows.get(randomIndex);
     }
 
     @Override
@@ -55,9 +59,12 @@ public class HashMarkov implements MarkovInterface {
         WordGram current = new WordGram(myWords, index, myOrder);
         randomWords.add(current.toString());
 
-            for (int i=0; i<length - myOrder; i += 1);
+            for (int i=0; i<length - myOrder; i += 1); {
                 String nextWord = getNext(current);
                 randomWords.add(nextWord);
+                current = current.shiftAdd(nextWord);
+            }
+        return String.join(" ", randomWords);
 
     }
 

@@ -100,7 +100,7 @@ public class WordGram {
 			wg.myWords[i] = wg.myWords[i+1];
 		}
 	wg.myWords[myWords.length - 1] = last;
-	return this;
+	return wg;
 
 }
 
@@ -111,7 +111,9 @@ public class WordGram {
 	 */
 	@Override
 	public String toString() {
-		// TODO correctly implement toString
-		return "";
+		if (myToString == null) {
+			myToString = String.join(" ", myWords);
+		}
+		return myToString;
 	}
 }
